@@ -1,0 +1,6 @@
+name = First class 1
+description = OOP in Drupal support module
+core = 7.x
+package = OOP
+version = "7.x-1.x-dev"
+

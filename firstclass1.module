@@ -1,0 +1,25 @@
+<?php
+
+class FirstClass1 {
+
+    public function __get($name) {
+        $method_name = 'get' . ucfirst($name);
+        return $this->$method_name();
+    }
+
+}
+
+class TableCell1 {
+
+    public $header;
+    public $class;
+    public $value;
+
+    public function __construct($header, $class, $data) {
+        $this->header = $header;
+        $this->class = $class;
+        $this->data = $data;
+    }
+
+}
+

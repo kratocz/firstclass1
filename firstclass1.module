@@ -71,3 +71,7 @@ class MenuItem1 extends FirstClass1 {
     }
 
 }
+
+class FormControl1 {
+    public $raw;
+}

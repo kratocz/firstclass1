@@ -74,4 +74,43 @@ class MenuItem1 extends FirstClass1 {
 
 class FormControl1 {
     public $raw;
+    
+    function setTitle($title) {
+        $this->raw['#title'] = $title;
+        return $this;
+    }
+    
+    function setDefaultValue($value) {
+        $this->raw['#default_value'] = $value;
+        return $this;
+    }
+    
+    function setValue($value) {
+        $this->raw['#value'] = $value;
+        return $this;
+    }
+    
+    function setDescription($description) {
+        $this->raw['#description'] = $description;
+        return $this;
+    }
+    
+    function setDisabled($disabled) {
+        $this->raw['#disabled'] =(bool) $disabled;
+        return $this;
+    }
+}
+
+class FormSelect1 extends FormControl1 {
+    public function __construct() {
+        $this->raw['#type'] = 'select';
+    }
+    
+    /**
+     * @param array $options Associative map option_id => option_title
+     */
+    function setOptions($options) {
+        $this->raw['#options'] = $options;
+        return $this;
+    }
 }

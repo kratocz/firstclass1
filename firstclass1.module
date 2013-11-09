@@ -28,3 +28,46 @@ class TableCell1 {
 
 }
 
+class MenuItem1 extends FirstClass1 {
+
+    public $raw;
+
+    function setTitle($title) {
+        $this->raw['title'] = $title;
+        return $this;
+    }
+    
+    /**
+     * <b>"type"</b>: A bitmask of flags describing properties of the menu item. Many shortcut bitmasks are provided as constants in menu.inc:
+     * <ul>
+     * <li>MENU_NORMAL_ITEM: Normal menu items show up in the menu tree and can be moved/hidden by the administrator.</li>
+     * <li>MENU_CALLBACK: Callbacks simply register a path so that the correct information is generated when the path is accessed.</li>
+     * <li>MENU_SUGGESTED_ITEM: Modules may "suggest" menu items that the administrator may enable.</li>
+     * <li>MENU_LOCAL_ACTION: Local actions are menu items that describe actions on the parent item such as adding a new user or block, and are rendered in the action-links list in your theme.</li>
+     * <li>MENU_LOCAL_TASK: Local tasks are menu items that describe different displays of data, and are generally rendered as tabs.</li>
+     * <li>MENU_DEFAULT_LOCAL_TASK: Every set of local tasks should provide one "default" task, which should display the same page as the parent item.</li>
+     * </ul>
+     * @param type $type
+     * @return \MenuItem1
+     */
+    function setType($type) {
+        $this->raw['type'] = $type;
+        return $this;
+    }
+    
+    function setPageCallback($callback) {
+        $this->raw['page callback'] = $callback;
+        return $this;
+    }
+    
+    function setAccessCallback($accessCallback) {
+        $this->raw['access callback'] = $accessCallback;
+        return $this;
+    }
+    
+    function setAccessArguments($accessArguments) {
+        $this->raw['access arguments'] = $accessArguments;
+        return $this;
+    }
+
+}

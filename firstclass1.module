@@ -36,7 +36,7 @@ class MenuItem1 extends FirstClass1 {
         $this->raw['title'] = $title;
         return $this;
     }
-    
+
     /**
      * <b>"type"</b>: A bitmask of flags describing properties of the menu item. Many shortcut bitmasks are provided as constants in menu.inc:
      * <ul>
@@ -54,58 +54,69 @@ class MenuItem1 extends FirstClass1 {
         $this->raw['type'] = $type;
         return $this;
     }
-    
-    function setPageCallback($callback) {
-        $this->raw['page callback'] = $callback;
+
+    function setPage($callback = NULL, $arguments = NULL) {
+        if ($callback !== NULL) {
+            $this->raw['page callback'] = $callback;
+        }
+        if ($arguments !== NULL) {
+            $this->raw['page arguments'] = $arguments;
+        }
         return $this;
     }
-    
-    function setAccessCallback($accessCallback) {
-        $this->raw['access callback'] = $accessCallback;
-        return $this;
-    }
-    
-    function setAccessArguments($accessArguments) {
-        $this->raw['access arguments'] = $accessArguments;
+
+    function setAccess($callback = NULL, $arguments = NULL) {
+        if ($callback !== NULL) {
+            $this->raw['access callback'] = $callback;
+        }
+        if ($arguments !== NULL) {
+            if (!is_array($arguments)) {
+                $arguments = (array) $arguments;
+            }
+            $this->raw['access arguments'] = $arguments;
+        }
         return $this;
     }
 
 }
 
 class FormControl1 {
+
     public $raw;
-    
+
     function setTitle($title) {
         $this->raw['#title'] = $title;
         return $this;
     }
-    
+
     function setDefaultValue($value) {
         $this->raw['#default_value'] = $value;
         return $this;
     }
-    
+
     function setValue($value) {
         $this->raw['#value'] = $value;
         return $this;
     }
-    
+
     function setDescription($description) {
         $this->raw['#description'] = $description;
         return $this;
     }
-    
+
     function setDisabled($disabled) {
-        $this->raw['#disabled'] =(bool) $disabled;
+        $this->raw['#disabled'] = (bool) $disabled;
         return $this;
     }
+
 }
 
 class FormSelect1 extends FormControl1 {
+
     public function __construct() {
         $this->raw['#type'] = 'select';
     }
-    
+
     /**
      * @param array $options Associative map option_id => option_title
      */
@@ -113,4 +124,5 @@ class FormSelect1 extends FormControl1 {
         $this->raw['#options'] = $options;
         return $this;
     }
+
 }

@@ -32,6 +32,18 @@ class MenuItem1 extends FirstClass1 {
 
     public $raw;
 
+    public function __construct(&$raw = NULL) {
+        if (!is_null($raw)) {
+            if (is_object($raw)) {
+                assert($raw instanceof MenuItem1);
+                $this->raw = $raw->raw;
+            } else {
+                assert(is_array($raw));
+                $this->raw = &$raw;
+            }
+        }
+    }
+
     function setTitle($title) {
         $this->raw['title'] = $title;
         return $this;
@@ -75,6 +87,12 @@ class MenuItem1 extends FirstClass1 {
             }
             $this->raw['access arguments'] = $arguments;
         }
+        return $this;
+    }
+
+    function setWeight($weight) {
+        assert(is_numeric($weight));
+        $this->raw['weight'] = $weight;
         return $this;
     }
 

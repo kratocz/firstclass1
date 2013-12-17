@@ -14,6 +14,27 @@ class FirstClass1 {
 
 }
 
+/**
+ * @property-read array $raw Raw Drupal array encapsulated by this class
+ */
+class FirstClass1Raw extends FirstClass1 {
+
+    public $raw;
+
+    public function __construct(&$raw = array()) {
+        if (!is_null($raw)) {
+            if (is_object($raw)) {
+                assert(get_class($raw) == get_class($this));
+                $this->raw = $raw->raw;
+            } else {
+                assert(is_array($raw));
+                $this->raw = &$raw;
+            }
+        }
+    }
+
+}
+
 class TableCell1 {
 
     public $header;
@@ -28,21 +49,7 @@ class TableCell1 {
 
 }
 
-class MenuItem1 extends FirstClass1 {
-
-    public $raw;
-
-    public function __construct(&$raw = NULL) {
-        if (!is_null($raw)) {
-            if (is_object($raw)) {
-                assert($raw instanceof MenuItem1);
-                $this->raw = $raw->raw;
-            } else {
-                assert(is_array($raw));
-                $this->raw = &$raw;
-            }
-        }
-    }
+class MenuItem1 extends FirstClass1Raw {
 
     function setTitle($title) {
         $this->raw['title'] = $title;
@@ -98,9 +105,14 @@ class MenuItem1 extends FirstClass1 {
 
 }
 
-class FormControl1 {
-
-    public $raw;
+/**
+ * @property-write String $title
+ * @property-write misc $defaultValue
+ * @property-write misc $value
+ * @property-write String $description
+ * @property-write boolean $disabled
+ */
+class FormControl1 extends FirstClass1Raw {
 
     function setTitle($title) {
         $this->raw['#title'] = $title;
@@ -132,6 +144,7 @@ class FormControl1 {
 class FormSelect1 extends FormControl1 {
 
     public function __construct() {
+        parent::__construct();
         $this->raw['#type'] = 'select';
     }
 

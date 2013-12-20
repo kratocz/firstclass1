@@ -141,6 +141,9 @@ class FormControl1 extends FirstClass1Raw {
 
 }
 
+/**
+ * @property-write String[] $options Associative array of option_id =&lt; option_label
+ */
 class FormSelect1 extends FormControl1 {
 
     public function __construct() {
@@ -153,6 +156,71 @@ class FormSelect1 extends FormControl1 {
      */
     function setOptions($options) {
         $this->raw['#options'] = $options;
+        return $this;
+    }
+
+}
+
+/**
+ * @property-write int $length Max allowed length
+ */
+class FormTextfield1 extends FormControl1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['#type'] = 'textfield';
+    }
+
+    function setMaxlength($length) {
+        $this->raw['#maxlength'] = $length;
+        return $this;
+    }
+
+}
+
+class Config1 {
+
+    protected static $defaultDefaultValue = '';
+
+    protected function defaults() {
+        return [];
+    }
+
+    public function __get($name) {
+        $defaults = $this->defaults();
+        if (isset($defaults[$name])) {
+            return variable_get($name, $defaults[$name]);
+        } else {
+            return variable_get($name, self::$defaultDefaultValue);
+        }
+    }
+
+    public function __set($name, $value) {
+        variable_set($name, $value);
+    }
+
+}
+
+/**
+ * @property-write bool $collapsible
+ * @property-write bool $collapsed
+ */
+class FormFieldset1 extends FormControl1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['#type'] = 'fieldset';
+        $this->raw['#collapsible'] = TRUE;
+        $this->raw['#collapsed'] = FALSE;
+    }
+
+    function setCollapsible($collapsible) {
+        $this->raw['#collapsible'] = $collapsible;
+        return $this;
+    }
+
+    function setCollapsed($collapsed) {
+        $this->raw['#collapsed'] = $collapsed;
         return $this;
     }
 

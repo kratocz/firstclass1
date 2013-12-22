@@ -17,7 +17,7 @@ class FirstClass1 {
 /**
  * @property-read array $raw Raw Drupal array encapsulated by this class
  */
-class FirstClass1Raw extends FirstClass1 {
+class FirstClass1Raw extends FirstClass1 implements ArrayAccess {
 
     public $raw;
 
@@ -31,6 +31,26 @@ class FirstClass1Raw extends FirstClass1 {
                 $this->raw = &$raw;
             }
         }
+    }
+
+    public function offsetSet($offset, $value) {
+        if (is_null($offset)) {
+            $this->raw[] = $value;
+        } else {
+            $this->raw[$offset] = $value;
+        }
+    }
+
+    public function offsetExists($offset) {
+        return isset($this->raw[$offset]);
+    }
+
+    public function offsetUnset($offset) {
+        unset($this->raw[$offset]);
+    }
+
+    public function offsetGet($offset) {
+        return isset($this->raw[$offset]) ? $this->container[$offset] : null;
     }
 
 }
@@ -178,6 +198,43 @@ class FormTextfield1 extends FormControl1 {
 
 }
 
+/**
+ * @property-write int $cols Columns
+ * @property-write int $rows Rows
+ */
+class FormTextarea1 extends FormControl1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['#type'] = 'textarea';
+    }
+
+    public function setCols($cols) {
+        $this->raw['#cols'] = $cols;
+        return $this;
+    }
+
+    public function setRows($rows) {
+        $this->raw['#rows'] = $rows;
+        return $this;
+    }
+
+}
+
+class FormSubmit1 extends FormControl1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['#type'] = 'submit';
+    }
+
+    public function addSubmitCallback($callback) {
+        $this->raw['#submit'][] = $callback;
+        return $this;
+    }
+
+}
+
 class Config1 {
 
     protected static $defaultDefaultValue = '';
@@ -223,5 +280,13 @@ class FormFieldset1 extends FormControl1 {
         $this->raw['#collapsed'] = $collapsed;
         return $this;
     }
+
+}
+
+class Menu1 extends FirstClass1Raw {
+    
+}
+
+class Form1 extends FirstClass1Raw {
 
 }

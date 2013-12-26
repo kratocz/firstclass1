@@ -76,6 +76,11 @@ class MenuItem1 extends FirstClass1Raw {
         return $this;
     }
 
+    function setDescription($description) {
+        $this->raw['description'] = $description;
+        return $this;
+    }
+
     /**
      * <b>"type"</b>: A bitmask of flags describing properties of the menu item. Many shortcut bitmasks are provided as constants in menu.inc:
      * <ul>
@@ -288,5 +293,58 @@ class Menu1 extends FirstClass1Raw {
 }
 
 class Form1 extends FirstClass1Raw {
+
+}
+
+/**
+ * @property-write array $header Header elements
+ * @property-write array $rows Rows
+ */
+class Table1 extends FirstClass1Raw {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['#theme'] = 'table';
+    }
+
+    function setHeader($header) {
+        $this->raw['#header'] = $header;
+        return $this;
+    }
+
+    function setRows($rows) {
+        $this->raw['#rows'] = $rows;
+        return $this;
+    }
+
+}
+
+class TableHeaderCell1 extends FirstClass1Raw {
+
+    function setData($data) {
+        $this->raw['data'] = $data;
+        return $this;
+    }
+
+    function setClass($class) {
+        $this->raw['class'] = $class;
+    }
+
+    function setField($field) {
+        $this->raw['field'] = $field;
+    }
+
+}
+
+class TableRowCell1 extends FirstClass1Raw {
+
+    function setData($data) {
+        $this->raw['data'] = $data;
+        return $this;
+    }
+
+    function setClass($class) {
+        $this->raw['class'] = $class;
+    }
 
 }

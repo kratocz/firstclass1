@@ -348,3 +348,22 @@ class TableRowCell1 extends FirstClass1Raw {
     }
 
 }
+
+class Link1 extends FirstClass1Raw {
+
+    function setText($text) {
+        $this->raw['text'] = $text;
+        return $this;
+    }
+
+    function setPath($path) {
+        $this->raw['path'] = $path;
+        return $this;
+    }
+
+    function setOptions($options) {
+        $this->raw['options'] = $options;
+        return $this;
+    }
+
+}

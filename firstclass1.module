@@ -314,6 +314,16 @@ class Table1 extends FirstClass1Raw {
 
     function setRows($rows) {
         $this->raw['#rows'] = $rows;
+        if (!empty($rows)) {
+            $cols = reset($rows);
+            foreach ($cols as $col) {
+                if (isset($col['title'])) {
+                    $this->raw['#header'][] = [
+                        'data' => $col['title'],
+                    ];
+                }
+            }
+        }
         return $this;
     }
 
@@ -338,6 +348,11 @@ class TableHeaderCell1 extends FirstClass1Raw {
 
 class TableRowCell1 extends FirstClass1Raw {
 
+    function setTitle($title) {
+        $this->raw['title'] = $title;
+        return $this;
+    }
+
     function setData($data) {
         $this->raw['data'] = $data;
         return $this;
@@ -351,18 +366,23 @@ class TableRowCell1 extends FirstClass1Raw {
 
 class Link1 extends FirstClass1Raw {
 
+    public function __construct() {
+        parent::__construct();
+        $this->raw['#theme'] = 'link';
+    }
+
     function setText($text) {
-        $this->raw['text'] = $text;
+        $this->raw['#text'] = $text;
         return $this;
     }
 
     function setPath($path) {
-        $this->raw['path'] = $path;
+        $this->raw['#path'] = $path;
         return $this;
     }
 
     function setOptions($options) {
-        $this->raw['options'] = $options;
+        $this->raw['#options'] = $options;
         return $this;
     }
 

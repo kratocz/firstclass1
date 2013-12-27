@@ -360,6 +360,7 @@ class TableRowCell1 extends FirstClass1Raw {
 
     function setClass($class) {
         $this->raw['class'] = $class;
+        return $this;
     }
 
 }

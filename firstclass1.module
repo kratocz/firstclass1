@@ -55,6 +55,19 @@ class FirstClass1Raw extends FirstClass1 implements ArrayAccess {
 
 }
 
+class RenderItem1 extends FirstClass1Raw {
+
+    public function addWrappingTag($htmlTagName) {
+        assert($htmlTagName[0] != '<');
+        $prefix = isset($this->raw['#prefix']) ? $this->raw['#prefix'] : '';
+        $suffix = isset($this->raw['#suffix']) ? $this->raw['#suffix'] : '';
+        $this->raw['#prefix'] = $prefix . '<' . $htmlTagName . '>';
+        $this->raw['#suffix'] = '</' . $htmlTagName . '>' . $suffix;
+        return $this;
+    }
+
+}
+
 class TableCell1 {
 
     public $header;
@@ -137,7 +150,7 @@ class MenuItem1 extends FirstClass1Raw {
  * @property-write String $description
  * @property-write boolean $disabled
  */
-class FormControl1 extends FirstClass1Raw {
+class FormControl1 extends RenderItem1 {
 
     function setTitle($title) {
         $this->raw['#title'] = $title;
@@ -384,6 +397,148 @@ class Link1 extends FirstClass1Raw {
 
     function setOptions($options) {
         $this->raw['#options'] = $options;
+        return $this;
+    }
+
+}
+
+abstract class SchemaField1 extends FirstClass1Raw {
+
+    function setSize($size) {
+        $this->raw['size'] = $size;
+        return $this;
+    }
+
+    function setNotNull($notNull) {
+        $this->raw['not null'] = $notNull;
+        return $this;
+    }
+
+    function setDefault($defaultValue) {
+        $this->raw['default'] = $defaultValue;
+        return $this;
+    }
+
+    function setDescription($description) {
+        $this->raw['description'] = $description;
+        return $this;
+    }
+
+}
+
+class SchemaSerial1 extends SchemaField1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['type'] = 'serial';
+        $this->raw['not null'] = TRUE;
+    }
+
+}
+
+class SchemaInt1 extends SchemaField1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['type'] = 'int';
+    }
+
+}
+
+class SchemaFloat1 extends SchemaField1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['type'] = 'float';
+    }
+
+}
+
+class SchemaNumeric1 extends SchemaField1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['type'] = 'numeric';
+    }
+
+}
+
+class SchemaVarchar1 extends SchemaField1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['type'] = 'varchar';
+    }
+
+}
+
+class SchemaChar1 extends SchemaField1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['type'] = 'char';
+    }
+
+}
+
+class SchemaText1 extends SchemaField1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['type'] = 'text';
+    }
+
+}
+
+class SchemaBlob1 extends SchemaField1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw['type'] = 'blob';
+    }
+
+}
+
+/**
+ * Inspired by: https://drupal.org/node/159605
+ */
+class SchemaDateTime1 extends SchemaField1 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->raw += [
+            'type' => 'datetime',
+            'mysql_type' => 'DATETIME',
+            'pgsql_type' => 'timestamp without time zone',
+            'sqlite_type' => 'VARCHAR',
+            'sqlsrv_type' => 'smalldatetime',
+            'sortable' => TRUE,
+            'views' => TRUE,
+        ];
+    }
+
+}
+
+class SchemaForeignKey1 extends FirstClass1Raw {
+
+    function setTable($tableName) {
+        assert(is_string($tableName));
+        $this->raw['table'] = $tableName;
+        return $this;
+    }
+
+    function setColumns($columns) {
+        assert(is_array($columns));
+        $this->raw['columns'] = $columns;
+        return $this;
+    }
+
+}
+
+class RenderMarkup1 extends RenderItem1 {
+
+    public function setMarkup($markup) {
+        $this->raw['#markup'] = $markup;
         return $this;
     }
 
